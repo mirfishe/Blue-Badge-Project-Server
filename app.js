@@ -13,11 +13,11 @@ sequelize.sync();
 app.use(express.json());
 
 
-app.use('/user', user);
+// app.use('/user', user);
 
-app.use('/list', list);
+// app.use('/list', list);
 
-app.use('/item', item);
+// app.use('/item', item);
 
 
 app.listen(process.env.PORT, function() { 
