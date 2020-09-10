@@ -1,5 +1,10 @@
 module.exports = (sequelize, DataTypes) => {
   const Item = sequelize.define('item', {
+      // itemID: {
+      //   type: DataTypes.INTEGER,
+      //   allowNull: false,
+      //   primaryKey: true
+      // },
       itemName: {
           type: DataTypes.STRING,
           allowNull: false
@@ -12,18 +17,27 @@ module.exports = (sequelize, DataTypes) => {
           type: DataTypes.STRING,
           allowNull: true
         },
-      dateAdded: {
-          type: DataTypes.DATE,
-          allowNull: false
-        },
+      // dateAdded: {
+      //     type: DataTypes.DATE,
+      //     allowNull: false
+      //   },
       sortID: {
             type: DataTypes.INTEGER,
             allowNull: false
-          },
+        },
       listID: {
-          type: DataTypes.INTEGER,
-          allowNull: false
+            type: DataTypes.INTEGER,
+            allowNull: false
         }
-      })
+      });
+
+    // https://www.djamware.com/post/5bb1f05280aca74669894417/node-express-sequelize-and-postgresql-association-example
+      // Item.associate = function(models) {
+      //   Item.belongsTo(models.List, {
+      //     foreignKey: 'listID',
+      //     targetKey: 'listID'
+      //   });
+      // };
+
   return Item;
-}
+};
