@@ -16,6 +16,10 @@ module.exports = (sequelize, DataTypes) => {
           type: DataTypes.DATE,
           allowNull: false
         },
+      sortID: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+          },
       listID: {
           type: DataTypes.INTEGER,
           allowNull: false
