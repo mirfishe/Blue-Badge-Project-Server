@@ -4,13 +4,13 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 /* ***********************************
- *** User Register ***
+ *** User Registration ***
 *********************************** */
 router.post('/register', function(req, res) {
 
     User.create({
-        username:   req.body.user.username,
-        passwordhash:   bcrypt.hashSync(req.body.user.passwordhash)
+        email:   req.body.user.email,
+        password:   bcrypt.hashSync(req.body.user.password)
     })
     .then(
         createSuccess = (user) => {
@@ -31,11 +31,11 @@ router.post('/register', function(req, res) {
 *********************************** */
 router.post('/login', function(req, res) {
 
-    User.findOne({where: {username: req.body.user.username}})
+    User.findOne({where: {email: req.body.user.email}})
     .then(
         loginSuccess = (user) => {
             if (user) {
-                bcrypt.compare(req.body.user.passwordhash, user.passwordhash, (err, matches) => {
+                bcrypt.compare(req.body.user.password, user.password, (err, matches) => {
                     if (matches) {
                         let token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: '1d'});
                         res.status(200).json({
@@ -44,11 +44,11 @@ router.post('/login', function(req, res) {
                             sessionToken:   token
                         });
                     } else {
-                        res.status(502).json({error: 'Login failed.'});
+                        res.status(401).json({error: 'Login failed.'});
                     };
                 })
             } else {
-                res.status(500).json({error: 'Failed to authenticate.'});
+                res.status(401).json({error: 'Failed to authenticate.'});
             };
         },
         err => res.status(501).send({error: 'Failed to process.'})
