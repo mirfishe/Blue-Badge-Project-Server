@@ -17,7 +17,8 @@ router.post('/register', function(req, res) {
             let token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: '1d'});
             res.json({
                 // Need to return all the properties of the user to the browser?
-                user:   user,
+                // user:   user,
+                id:   user.id,
                 message:    'User successfully created.',
                 sessionToken:   token
             });
@@ -51,7 +52,8 @@ router.post('/login', function(req, res) {
                         let token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: '1d'});
                         res.status(200).json({
                             // Need to return all the properties of the user to the browser?
-                            user:   user,
+                            // user:   user,
+                            id:   user.id,
                             message:    'Successfully authenticated user.',
                             sessionToken:   token
                         });

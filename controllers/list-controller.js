@@ -9,7 +9,7 @@ const validateSession = require('../middleware/validate-session');
 router.post("/add", validateSession, (req, res) => {
     const newList = {
       listName: req.body.list.title,
-      userID: req.user.id,
+      userID: req.user.id
     };
     List.create(newList)
       .then((list) => res.status(200).json(list))
