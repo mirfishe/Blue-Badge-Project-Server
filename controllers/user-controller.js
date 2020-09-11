@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const User = require('../db').import('../models/user');
+const List = require('../db').import('../models/list');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -8,6 +9,13 @@ const jwt = require('jsonwebtoken');
 *********************************** */
 router.post('/register', function(req, res) {
 
+    let userID = 0;
+
+    const createDefaultList = (userID) => List.create({
+        listName: 'Default List',
+        userID: userID
+    });
+
     User.create({
         email:   req.body.user.email,
         password:   bcrypt.hashSync(req.body.user.password)
@@ -15,6 +23,12 @@ router.post('/register', function(req, res) {
     .then(
         createSuccess = (user) => {
             let token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: '1d'});
+            userID = user.id;
+            // Create a default list for the user upon successfully creating user with the userID
+            if (userID !== 0) {
+                createDefaultList(userID);
+            };
+            
             res.json({
                 // Need to return all the properties of the user to the browser?
                 // user:   user,
@@ -25,17 +39,13 @@ router.post('/register', function(req, res) {
         },
         createError = (err) => res.status(500).json(err)
     )
+    // .then(
+    //     // Inserts 0 if the user record isn't created successfully
+    //     // if (userID !== 0) {
+    //         createDefaultList(userID)
+    //     // };
+    //     )
     .catch(err => res.status(500).json({error: err}))
-
-    // Create a default list for the user upon successfully creating user with the userID
-    // const newList = {
-    //     listName: 'Default List',
-    //     userID: req.user.id,
-    //   };
-    //   List.create(newList)
-    //     .then((list) => res.status(200).json(list))
-    //     .catch((err) => res.status(500).json({ error: err }));
-
 
 
     // https://stackoverflow.com/questions/48376479/executing-multiple-sequelize-js-model-query-methods-with-promises-node
@@ -48,7 +58,6 @@ router.post('/register', function(req, res) {
     //     listName: 'Default List',
     //     userID: req.user.id,
     // });
-
 
     // Promise
     // .all([userRegister, createDefaultList])

@@ -3,7 +3,8 @@ module.exports = (sequelize, DataTypes) => {
       // itemID: {
       //   type: DataTypes.INTEGER,
       //   allowNull: false,
-      //   primaryKey: true
+      //   primaryKey: true,
+      //   autoIncrement: true
       // },
       itemName: {
           type: DataTypes.STRING,
@@ -36,6 +37,7 @@ module.exports = (sequelize, DataTypes) => {
       //   Item.belongsTo(models.List, {
       //     foreignKey: 'listID',
       //     targetKey: 'listID'
+      //     as: 'listItems'
       //   });
       // };
 
