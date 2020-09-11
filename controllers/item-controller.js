@@ -14,14 +14,17 @@ router.post("/add/:id", validateSession, (req, res) => {
                 listId: list.id,
             })
         })
-    .then((item) => res.status(200).json(item))
+    .then((item) => res.status(200).json({listItem: item, message: "Item created"}))
     .catch((err) => res.status(500).json({ error: err }))
 });
 
 router.delete("/delete/:id", validateSession, (req, res) => {
+  
+    console.log(req.params.id);
+  
     const query = { where: { id: req.params.id } };
     Item.destroy(query)
-        .then(() => res.status(200).json(list))
+        .then((item) => res.status(200).send("Item deleted"))
         .catch((err) => res.status(500).json({ error: err }))
 });
 
