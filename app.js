@@ -22,7 +22,7 @@ app.use(require('./middleware/headers'));
 
 app.use('/user', user);
 
-// app.use('/list', list);
+app.use('/list', list);
 
 // app.use('/item', item);
 
