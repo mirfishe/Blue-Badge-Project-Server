@@ -11,17 +11,18 @@ router.post("/add/:id", validateSession, (req, res) => {
                 itemURL: req.body.item.itemURL,
                 imageURL: req.body.item.imageURL,
                 sortID: req.body.item.sortID,
-                listID: list.id,
+                listId: list.id,
             })
         })
-    .then((item) => res.status(200).json(item))
+    .then((item) => res.status(200).json({listItem: item, message: "Item created"}))
     .catch((err) => res.status(500).json({ error: err }))
 });
 
 router.delete("/delete/:id", validateSession, (req, res) => {
-    const query = { where: { id: req.params.id, userID: req.user.id } };
+    console.log(req.params.id);
+    const query = { where: { id: req.params.id } };
     Item.destroy(query)
-        .then(() => res.status(200).json(list))
+        .then((item) => res.status(200).send("Item deleted"))
         .catch((err) => res.status(500).json({ error: err }))
 });
 
