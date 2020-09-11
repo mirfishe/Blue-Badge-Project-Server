@@ -9,4 +9,7 @@ sequelize.authenticate()
     .then(() => console.log('postgres db is connected.'))
     .catch(err => console.log(err));
 
+    List.hasmany(Item)
+    Item.belongsto(List)
+
 module.exports = sequelize;
