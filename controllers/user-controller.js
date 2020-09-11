@@ -16,6 +16,7 @@ router.post('/register', function(req, res) {
         createSuccess = (user) => {
             let token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: '1d'});
             res.json({
+                // Need to return all the properties of the user to the browser?
                 user:   user,
                 message:    'User successfully created.',
                 sessionToken:   token
@@ -24,6 +25,16 @@ router.post('/register', function(req, res) {
         createError = (err) => res.status(500).json(err)
     )
     .catch(err => res.status(500).json({error: err}))
+
+    // Create a default list for the user upon successfully creating user with the userID
+    const newList = {
+        listName: 'Default List',
+        userID: req.user.id,
+      };
+      List.create(newList)
+        .then((list) => res.status(200).json(list))
+        .catch((err) => res.status(500).json({ error: err }));
+
 });
 
 /* ***********************************
@@ -39,6 +50,7 @@ router.post('/login', function(req, res) {
                     if (matches) {
                         let token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: '1d'});
                         res.status(200).json({
+                            // Need to return all the properties of the user to the browser?
                             user:   user,
                             message:    'Successfully authenticated user.',
                             sessionToken:   token
