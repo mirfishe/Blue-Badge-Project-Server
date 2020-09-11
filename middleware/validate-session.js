@@ -11,9 +11,8 @@ const validateSession = (req, res, next) => {
         if (!err && decoded) {
             User.findOne({ where: {id: decoded.id}})
             .then(user => {
-                // console.log('user: ', user);
                 if(!user) throw 'err';
-                req.user = user;
+                req.user = {id:user.id};
                 return next();
             })
             .catch(err => next(err))
