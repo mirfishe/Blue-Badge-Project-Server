@@ -12,6 +12,8 @@ const validateSession = (req, res, next) => {
             User.findOne({ where: {id: decoded.id}})
             .then(user => {
                 if(!user) throw 'err';
+                // Need to return all the properties of the user?
+                // req.user = user;
                 req.user = {id:user.id};
                 return next();
             })
