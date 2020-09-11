@@ -3,7 +3,7 @@ const List = require("../db").import("../models/list");
 const Item = require("../db").import("../models/item");
 const validateSession = require("../middleware/validate-session");
 
-/******************
+/********************
  ***** Get List *****
  *******************/
 router.get("/", (req, res) => {
@@ -16,6 +16,10 @@ router.get("/", (req, res) => {
     );
 });
 
+
+/*************************
+ ***** Get List By ID*****
+ *************************/
 router.get("/:id", (req, res) => {
   List.findOne({ where: { listName: req.params.list.id } })
     .then((list) => res.status(200).json(list))
