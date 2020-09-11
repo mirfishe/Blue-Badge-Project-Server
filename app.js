@@ -24,7 +24,7 @@ app.use('/user', user);
 
 app.use('/list', list);
 
-// app.use('/item', item);
+app.use('/item', item);
 
 
 app.listen(process.env.PORT, function() { 
