@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
       // Item.associate = function(models) {
       //   Item.belongsTo(models.List, {
       //     foreignKey: 'listID',
-      //     targetKey: 'listID'
+      //     targetKey: 'listID',
       //     as: 'listItems'
       //   });
       // };
