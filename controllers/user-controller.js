@@ -9,6 +9,8 @@ const jwt = require('jsonwebtoken');
 *********************************** */
 router.post('/register', function(req, res) {
 
+    // user registration endpoint is working but throws an error in nodemon
+
     let userID = 0;
 
     const createDefaultList = (userID) => List.create({

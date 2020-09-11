@@ -3,6 +3,9 @@ const Item = require('../db').import('../models/item');
 const List = require('../db').import('../models/list');
 const validateSession = require('../middleware/validate-session');
 
+/***************************
+ ****** Add List Item ******
+ ***************************/
 router.post("/add/:id", validateSession, (req, res) => {
     List.findOne({ where: { id: req.params.id } })
         .then(list => {
@@ -18,6 +21,9 @@ router.post("/add/:id", validateSession, (req, res) => {
     .catch((err) => res.status(500).json({ error: err }))
 });
 
+/***************************
+ **** Delete List Item *****
+ ***************************/
 router.delete("/delete/:id", validateSession, (req, res) => {
   
     // console.log(req.params.id);
