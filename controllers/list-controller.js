@@ -1,15 +1,15 @@
 const router = require('express').Router();
 const List = require('../db').import('../models/list');
+const Item = require('../db').import('../models/item');
 const validateSession = require('../middleware/validate-session');
 
-
 /*******************
- *** Create Entry ****
+ *** Create List ****
  ********************/
 router.post("/add", validateSession, (req, res) => {
     const newList = {
       listName: req.body.list.title,
-      userID: req.user.id,
+      userID: req.user.id
     };
     List.create(newList)
       .then((list) => res.status(200).json(list))
@@ -35,11 +35,31 @@ router.put("/update/:id", validateSession, (req, res) => {
  ******* Delete List *******
  ***************************/
 router.delete("/delete/:id", validateSession, (req, res) => {
-    const query = { where: { id: req.params.id, userID: req.user.id } };
+    //const query = { where: { id: req.params.id, userID: req.user.id } };
   
-    List.destroy(query)
-      .then(() => res.status(200).send("List Deleted"))
-      .catch((err) => res.status(500).json({ error: err }));
+    // https://stackoverflow.com/questions/48376479/executing-multiple-sequelize-js-model-query-methods-with-promises-node
+    const deleteList = List.destroy({ where: { id: req.params.id, userID: req.user.id } })
+
+    const deleteListItems = Item.destroy({ where: { listID: req.params.id} })
+
+    Promise
+    .all([deleteList, deleteListItems])
+    // .then(responses => {
+    //     console.log('**********COMPLETE RESULTS****************');
+    //     console.log(responses[0]); // deleteList
+    //     console.log(responses[1]); // deleteListItems
+    // })
+    .then(() => res.status(200).send("List Deleted"))
+    .catch((err) => res.status(500).json({ error: err }));
+    // .catch(err => {
+    //     console.log('**********ERROR RESULT****************');
+    //     console.log(err);
+    // });
+
+    // List.destroy(query)
+    //   .then(() => res.status(200).send("List Deleted"))
+    //   .catch((err) => res.status(500).json({ error: err }));
+
   });
   
   module.exports = router;
