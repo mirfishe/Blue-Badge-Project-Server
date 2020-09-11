@@ -3,7 +3,8 @@ module.exports = (sequelize, DataTypes) => {
         // listID: {
         //     type: DataTypes.INTEGER,
         //     allowNull: false,
-        //     primaryKey: true
+        //     primaryKey: true,
+        //     autoIncrement: true
         // },
         listName: {
             type: DataTypes.STRING,
@@ -31,7 +32,9 @@ module.exports = (sequelize, DataTypes) => {
     // List.associate = function(models) {
     //     List.belongsTo(models.User, {
     //       foreignKey: 'userID',
+    //       onDelete: 'CASCADE',
     //       targetKey: 'userID'
+    //       as: 'userLists'
     //     });
     //   };
 
