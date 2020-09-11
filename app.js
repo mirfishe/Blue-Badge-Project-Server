@@ -7,6 +7,7 @@ const sequelize = require('./db');
 const user = require('./controllers/user-controller');
 const list = require('./controllers/list-controller');
 const item = require('./controllers/item-controller');
+const igdb = require('./controllers/igdb-controller');
 
 sequelize.sync();
 
@@ -25,6 +26,8 @@ app.use('/user', user);
 app.use('/list', list);
 
 app.use('/item', item);
+
+app.use('/igdb', igdb);
 
 
 app.listen(process.env.PORT, function() { 

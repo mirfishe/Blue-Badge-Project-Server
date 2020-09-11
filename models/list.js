@@ -33,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
     //     List.belongsTo(models.User, {
     //       foreignKey: 'userID',
     //       onDelete: 'CASCADE',
-    //       targetKey: 'userID'
+    //       targetKey: 'userID',
     //       as: 'userLists'
     //     });
     //   };
