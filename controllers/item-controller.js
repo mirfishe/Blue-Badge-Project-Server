@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const Item = require('../db').import('../models/item');
-const List = require('../db').import('../models/list')
+const List = require('../db').import('../models/list');
 const validateSession = require('../middleware/validate-session');
 
 router.post("/add/:id", validateSession, (req, res) => {
