@@ -19,7 +19,9 @@ router.post("/add/:id", validateSession, (req, res) => {
 });
 
 router.delete("/delete/:id", validateSession, (req, res) => {
+  
     console.log(req.params.id);
+  
     const query = { where: { id: req.params.id } };
     Item.destroy(query)
         .then((item) => res.status(200).send("Item deleted"))

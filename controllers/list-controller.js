@@ -1,7 +1,8 @@
-const router = require("express").Router();
-const List = require("../db").import("../models/list");
-const Item = require("../db").import("../models/item");
-const validateSession = require("../middleware/validate-session");
+const router = require('express').Router();
+const User = require('../db').import('../models/user');
+const List = require('../db').import('../models/list');
+const Item = require('../db').import('../models/item');
+const validateSession = require('../middleware/validate-session');
 
 /********************
  ***** Get List *****
@@ -16,7 +17,6 @@ router.get("/", (req, res) => {
     );
 });
 
-
 /*************************
  ***** Get List By ID*****
  *************************/
@@ -30,15 +30,21 @@ router.get("/:id", (req, res) => {
  *** Create List ****
  ********************/
 router.post("/add", validateSession, (req, res) => {
-    const newList = {
-      listName: req.body.list.title,
-      userID: req.user.id
-    };
-    List.create(newList)
+    // const newList = {
+    //   listName: req.body.list.title,
+    //   userId: req.user.id
+    // };
+    // List.create(newList)
+    User.findOne({ where: { id: req.user.id} })
+    .then(user => {
+        List.create({
+          listName: req.body.list.title,
+          userId: user.id
+        })
+    })
       .then((list) => res.status(200).json(list))
       .catch((err) => res.status(500).json({ error: err }));
   });
-
 
 /***************************
  ******* Update List *******
