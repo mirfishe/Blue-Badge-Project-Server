@@ -74,7 +74,9 @@ router.delete("/delete/:id", validateSession, (req, res) => {
   //const deleteListItems = Item.destroy({ where: { listId: req.params.id } });
 
   // I'm curious if there is a better solution than this:
-  const deleteListItems2 = Item.findOne({ where: { listId: req.params.id } })
+  // const deleteListItems2 = Item.findOne({ where: { listId: req.params.id } })
+  // findAll
+  const deleteListItems2 = Item.findAll({ where: { listId: req.params.id } })
   .then((res) => {
       Item.destroy({ where: { id: res.id } })
   })
