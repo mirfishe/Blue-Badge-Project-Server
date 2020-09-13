@@ -73,13 +73,13 @@ router.post('/register', function(req, res) {
     // });
 
     // Create a default list for the user upon successfully creating user with the userID
-    const newList = {
-        listName: 'Default List',
-        userID: req.user.id,
-      };
-      List.create(newList)
-        .then((list) => res.status(200).json(list))
-        .catch((err) => res.status(500).json({ error: err }));
+    // const newList = {
+    //     listName: 'Default List',
+    //     userID: req.user.id,
+    //   };
+    //   List.create(newList)
+    //     .then((list) => res.status(200).json(list))
+    //     .catch((err) => res.status(500).json({ error: err }));
 
 });
 
