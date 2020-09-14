@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
 
-// Added because of the Heroku modules
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect:    'postgres'
 });
