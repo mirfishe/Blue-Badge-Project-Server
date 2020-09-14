@@ -25,26 +25,19 @@ sequelize.authenticate()
     const Item = sequelize.import('./models/item');
 
     User.hasMany(List, {
-        foreignKey: {
-            onDelete: 'cascade'
-        }
+            onDelete: 'cascade',
+            hooks: true
     });
     List.belongsTo(User, {
-        foreignKey: {
             onDelete: 'cascade'
-        }
     });
 
     List.hasMany(Item, {
-        
             onDelete: 'cascade',
             hooks: true
-        
     });
     Item.belongsTo(List, {
-        foreignKey: {
             onDelete: 'cascade'
-        }
     });
 
 module.exports = sequelize;
