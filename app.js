@@ -30,7 +30,7 @@ app.use('/item', item);
 app.use('/igdb', igdb);
 
 
-app.listen(process.env.PORT || 3333, function() { 
+app.listen(process.env.PORT, function() { 
   console.log(`App is listening on port ${process.env.PORT}`);
 }
 );
