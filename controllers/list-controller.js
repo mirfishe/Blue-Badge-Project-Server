@@ -7,7 +7,7 @@ const validateSession = require("../middleware/validate-session");
 /******************************
  ***** Get Lists By UserID *****
  ******************************/
-router.get("/user/:id", validateSession, (req, res) => {
+router.get("/", validateSession, (req, res) => {
   List.findAll({ where: { userId: req.user.id } })
     .then((list) => res.status(200).json(list))
     .catch((err) =>
@@ -65,13 +65,11 @@ router.put("/update/:id", validateSession, (req, res) => {
  ***************************/
 router.delete("/delete/:id", validateSession, (req, res) => {
 
-  const deleteList = List.destroy({
+List.destroy({
     where: { id: req.params.id, userId: req.user.id },
   })
     .then(() => res.status(200).send("List deleted."))
     .catch((err) => res.status(500).json({ error: err }));
 });
-
-module.exports = router;
 
 module.exports = router;
