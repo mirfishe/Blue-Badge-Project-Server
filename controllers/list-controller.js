@@ -1,14 +1,14 @@
-const router = require('express').Router();
-const User = require('../db').import('../models/user');
-const List = require('../db').import('../models/list');
-const Item = require('../db').import('../models/item');
-const validateSession = require('../middleware/validate-session');
+const router = require("express").Router();
+const User = require("../db").import("../models/user");
+const List = require("../db").import("../models/list");
+const Item = require("../db").import("../models/item");
+const validateSession = require("../middleware/validate-session");
 
-/********************
- ***** Get List *****
- *******************/
-router.get("/", (req, res) => {
-  List.findAll()
+/******************************
+ ***** Get Lists By UserID *****
+ ******************************/
+router.get("/user/:id", validateSession, (req, res) => {
+  List.findAll({ where: { userId: req.user.id } })
     .then((list) => res.status(200).json(list))
     .catch((err) =>
       res.status(500).json({
@@ -17,11 +17,11 @@ router.get("/", (req, res) => {
     );
 });
 
-/*************************
- ***** Get List By ID*****
- *************************/
-router.get("/:id", (req, res) => {
-  List.findOne({ where: { listName: req.params.list.id } })
+/**************************
+ ***** Get List By ID *****
+ **************************/
+router.get("/:listID", validateSession, (req, res) => {
+  List.findOne({ where: { id: req.params.listID, userId: req.user.id } })
     .then((list) => res.status(200).json(list))
     .catch((err) => res.status(500).json({ error: err }));
 });
@@ -30,21 +30,21 @@ router.get("/:id", (req, res) => {
  *** Create List ****
  ********************/
 router.post("/add", validateSession, (req, res) => {
-    // const newList = {
-    //   listName: req.body.list.title,
-    //   userId: req.user.id
-    // };
-    // List.create(newList)
-    User.findOne({ where: { id: req.user.id} })
-    .then(user => {
-        List.create({
-          listName: req.body.list.title,
-          userId: user.id
-        })
+  // const newList = {
+  //   listName: req.body.list.title,
+  //   userId: req.user.id
+  // };
+  // List.create(newList)
+  User.findOne({ where: { id: req.user.id } })
+    .then((user) => {
+      List.create({
+        listName: req.body.list.title,
+        userId: user.id,
+      });
     })
-      .then((list) => res.status(200).json(list))
-      .catch((err) => res.status(500).json({ error: err }));
-  });
+    .then((list) => res.status(200).json(list))
+    .catch((err) => res.status(500).json({ error: err }));
+});
 
 /***************************
  ******* Update List *******
@@ -74,10 +74,11 @@ router.delete("/delete/:id", validateSession, (req, res) => {
   //const deleteListItems = Item.destroy({ where: { listId: req.params.id } });
 
   // I'm curious if there is a better solution than this:
-  const deleteListItems2 = Item.findOne({ where: { listId: req.params.id } })
-  .then((res) => {
-      Item.destroy({ where: { id: res.id } })
-  })
+  const deleteListItems2 = Item.findOne({
+    where: { listId: req.params.id },
+  }).then((res) => {
+    Item.destroy({ where: { id: res.id } });
+  });
 
   Promise.all([deleteList, deleteListItems2])
     // .then(responses => {
