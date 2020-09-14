@@ -7,7 +7,7 @@ const validateSession = require("../middleware/validate-session");
 /******************************
  ***** Get Lists By UserID *****
  ******************************/
-router.get("/user/:id", validateSession, (req, res) => {
+router.get("/", validateSession, (req, res) => {
   List.findAll({ where: { userId: req.user.id } })
     .then((list) => res.status(200).json(list))
     .catch((err) =>
