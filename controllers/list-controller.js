@@ -64,37 +64,12 @@ router.put("/update/:id", validateSession, (req, res) => {
  ******* Delete List *******
  ***************************/
 router.delete("/delete/:id", validateSession, (req, res) => {
-  //const query = { where: { id: req.params.id, userId: req.user.id } };
 
-  // https://stackoverflow.com/questions/48376479/executing-multiple-sequelize-js-model-query-methods-with-promises-node
   const deleteList = List.destroy({
     where: { id: req.params.id, userId: req.user.id },
-  });
-
-  //const deleteListItems = Item.destroy({ where: { listId: req.params.id } });
-
-  // I'm curious if there is a better solution than this:
-  const deleteListItems2 = Item.findOne({ where: { listId: req.params.id } })
-  .then((res) => {
-      Item.destroy({ where: { id: res.id } })
   })
-
-  Promise.all([deleteList, deleteListItems2])
-    // .then(responses => {
-    //     console.log('**********COMPLETE RESULTS****************');
-    //     console.log(responses[0]); // deleteList
-    //     console.log(responses[1]); // deleteListItems
-    // })
     .then(() => res.status(200).send("List deleted."))
     .catch((err) => res.status(500).json({ error: err }));
-  // .catch(err => {
-  //     console.log('**********ERROR RESULT****************');
-  //     console.log(err);
-  // });
-
-  // List.destroy(query)
-  //   .then(() => res.status(200).send("List Deleted"))
-  //   .catch((err) => res.status(500).json({ error: err }));
 });
 
 module.exports = router;
