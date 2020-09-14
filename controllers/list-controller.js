@@ -3,6 +3,7 @@ const User = require('../db').import('../models/user');
 const List = require('../db').import('../models/list');
 const Item = require('../db').import('../models/item');
 const validateSession = require('../middleware/validate-session');
+const { Op } = require("sequelize");
 
 /********************
  ***** Get List *****
@@ -71,17 +72,17 @@ router.delete("/delete/:id", validateSession, (req, res) => {
     where: { id: req.params.id, userId: req.user.id },
   });
 
-  //const deleteListItems = Item.destroy({ where: { listId: req.params.id } });
+  const deleteListItems = Item.destroy({ where: {listId: { [Op.or]: {[Op.eq]: req.params.id, [Op.eq]: null}}}});
 
   // I'm curious if there is a better solution than this:
   // const deleteListItems2 = Item.findOne({ where: { listId: req.params.id } })
   // findAll
-  const deleteListItems2 = Item.findAll({ where: { listId: req.params.id } })
-  .then((res) => {
-      Item.destroy({ where: { id: res.id } })
-  })
+  // const deleteListItems2 = Item.findAll({ where: { listId: req.params.id } })
+  // .then((res) => {
+  //     Item.destroy({ where: { id: res.id } })
+  // })
 
-  Promise.all([deleteList, deleteListItems2])
+  Promise.all([deleteList, deleteListItems])
     // .then(responses => {
     //     console.log('**********COMPLETE RESULTS****************');
     //     console.log(responses[0]); // deleteList
