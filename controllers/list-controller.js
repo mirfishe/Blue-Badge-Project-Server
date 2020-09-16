@@ -12,12 +12,12 @@ router.get("/", validateSession, (req, res) => {
     .catch((err) => res.status(500).json({ error: err }));
 });
 
-/**************************
- ***** Get List By ID *****
- **************************/
+/********************************
+ ***** Get Items by List ID *****
+ *******************************/
 router.get("/:listID", validateSession, (req, res) => {
-  List.findOne({ where: { id: req.params.listID, userId: req.user.id } })
-    .then((list) => res.status(200).json(list))
+  Item.findAll({ where: { listId: req.params.listID } })
+    .then((items) => res.status(200).json(items))
     .catch((err) => res.status(500).json({ error: err }));
 });
 
