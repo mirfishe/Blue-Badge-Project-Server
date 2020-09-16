@@ -25,9 +25,6 @@ router.post("/add/:id", validateSession, (req, res) => {
  **** Delete List Item *****
  ***************************/
 router.delete("/delete/:id", validateSession, (req, res) => {
-  
-    // console.log(req.params.id);
-  
     const query = { where: { id: req.params.id } };
     Item.destroy(query)
         .then(() => res.status(200).send("List item removed."))

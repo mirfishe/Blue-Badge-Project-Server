@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const User = require("../db").import("../models/user");
 const List = require("../db").import("../models/list");
-const Item = require("../db").import("../models/item");
+const Item = require('../db').import('../models/item');
 const validateSession = require("../middleware/validate-session");
 
 /******************************
@@ -10,11 +10,7 @@ const validateSession = require("../middleware/validate-session");
 router.get("/", validateSession, (req, res) => {
   List.findAll({ where: { userId: req.user.id } })
     .then((list) => res.status(200).json(list))
-    .catch((err) =>
-      res.status(500).json({
-        error: err,
-      })
-    );
+    .catch((err) => res.status(500).json({ error: err }));
 });
 
 /********************************
