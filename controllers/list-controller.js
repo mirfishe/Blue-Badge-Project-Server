@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const User = require("../db").import("../models/user");
 const List = require("../db").import("../models/list");
+const Item = require('../db').import('../models/item');
 const validateSession = require("../middleware/validate-session");
 
 /******************************
