@@ -7,16 +7,28 @@ const validateSession = require('../middleware/validate-session');
  ****** Add List Item ******
  ***************************/
 router.post("/add/:id", validateSession, (req, res) => {
-    List.findOne({ where: { id: req.params.id } })
-        .then(list => {
-            Item.create({
-                itemName: req.body.item.itemName,
-                itemURL: req.body.item.itemURL,
-                imageURL: req.body.item.imageURL,
-                sortID: req.body.item.sortID,
-                listId: list.id,
-            })
+
+    Item.max('sortID', {where: { listId: req.params.id }})
+    .then(maxSortID => {
+        console.log("maxSortID", maxSortID);
+        if (isNaN(maxSortID)) {
+            return 1;
+        } else {
+            return maxSortID + 1;
+        };
+      })
+    .then(newSortID => {
+        List.findOne({ where: { id: req.params.id } })
+    .then(list => {
+        Item.create({
+            itemName: req.body.item.itemName,
+            itemURL: req.body.item.itemURL,
+            imageURL: req.body.item.imageURL,
+            sortID: newSortID,
+            listId: list.id,
         })
+    })
+    })
     .then((item) => res.status(200).json({listItem: item, message: "List item added."}))
     .catch((err) => res.status(500).json({ error: err }))
 });
