@@ -7,7 +7,8 @@ const sequelize = require('./db');
 const user = require('./controllers/user-controller');
 const list = require('./controllers/list-controller');
 const item = require('./controllers/item-controller');
-const igdb = require('./controllers/igdb-controller');
+const search = require('./controllers/search-controller');
+const game = require('./controllers/game-controller');
 
 sequelize.sync();
 
@@ -27,10 +28,11 @@ app.use('/list', list);
 
 app.use('/item', item);
 
-app.use('/igdb', igdb);
+app.use('/search', search);
 
+app.use('/game', game);
 
-app.listen(process.env.PORT, function() { 
+app.listen(process.env.PORT || 4000, function() { 
   console.log(`App is listening on port ${process.env.PORT}`);
 }
 );

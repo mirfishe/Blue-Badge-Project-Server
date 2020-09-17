@@ -1,28 +1,24 @@
 const router = require("express").Router();
 const User = require("../db").import("../models/user");
 const List = require("../db").import("../models/list");
-const Item = require("../db").import("../models/item");
+const Item = require('../db').import('../models/item');
 const validateSession = require("../middleware/validate-session");
 
 /******************************
  ***** Get Lists By UserID *****
  ******************************/
 router.get("/", validateSession, (req, res) => {
-  List.findAll({ where: { userId: req.user.id } })
+  List.findAll({ where: { userId: req.user.id }, order: [["listName", 'ASC']]})
     .then((list) => res.status(200).json(list))
-    .catch((err) =>
-      res.status(500).json({
-        error: err,
-      })
-    );
+    .catch((err) => res.status(500).json({ error: err }));
 });
 
-/**************************
- ***** Get List By ID *****
- **************************/
+/********************************
+ ***** Get Items by List ID *****
+ *******************************/
 router.get("/:listID", validateSession, (req, res) => {
-  List.findOne({ where: { id: req.params.listID, userId: req.user.id } })
-    .then((list) => res.status(200).json(list))
+  Item.findAll({ where: { listId: req.params.listID }, order: [["sortID", 'ASC']]})
+    .then((items) => res.status(200).json(items))
     .catch((err) => res.status(500).json({ error: err }));
 });
 
