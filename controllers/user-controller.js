@@ -12,7 +12,7 @@ router.post('/register', function(req, res) {
     let userID = 0;
 
     const createDefaultList = (userID) => List.create({
-        listName: 'Default List',
+        listName: 'Bookmarks',
         userId: userID
     });
 
