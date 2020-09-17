@@ -8,7 +8,7 @@ const validateSession = require("../middleware/validate-session");
  ***** Get Lists By UserID *****
  ******************************/
 router.get("/", validateSession, (req, res) => {
-  List.findAll({ where: { userId: req.user.id } })
+  List.findAll({ where: { userId: req.user.id }, order: [["listName", 'ASC']]})
     .then((list) => res.status(200).json(list))
     .catch((err) => res.status(500).json({ error: err }));
 });
@@ -17,7 +17,7 @@ router.get("/", validateSession, (req, res) => {
  ***** Get Items by List ID *****
  *******************************/
 router.get("/:listID", validateSession, (req, res) => {
-  Item.findAll({ where: { listId: req.params.listID } })
+  Item.findAll({ where: { listId: req.params.listID }, order: [["sortID", 'ASC']]})
     .then((items) => res.status(200).json(items))
     .catch((err) => res.status(500).json({ error: err }));
 });
